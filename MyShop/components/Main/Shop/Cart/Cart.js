@@ -8,7 +8,6 @@ import CartView from './CartView'
 
 const CartStack = createStackNavigator();
 
-
 export default class Cart extends Component {
   render() {
     return (

@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Authentication from './components/Authentication/Authentication';
 import ChangeInfo from './components/ChangeInfo/ChangeInfo';
 import OrderHistory from './components/OrderHistory/OrderHistory';
-import Main from './components/Main/Main';
+// import Main from './components/Main/Main';
 import Menu from './components/Main/Menu';
 import Shop from './components/Main/Shop/Shop';
 import Home from './components/Main/Shop/Home/Home';

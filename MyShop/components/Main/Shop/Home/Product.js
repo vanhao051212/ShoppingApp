@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
+import sp4 from '../../../../media/temp/sp4.jpeg';
 
+const uri = 'http://192.168.1.14/app/images/product/';
 export default class Product extends Component {
   state = {}
   static propTypes = {
-    image: Image.propTypes.source.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired
+    product: PropTypes.object.isRequired
   }
   render() {
     const { container, imageStyle, textContainer, textName, textPrice } = styles;
-    const { image, name, price, navigation } = this.props;
+    const { navigation, product } = this.props;
     return (
       <TouchableOpacity style={container}
-        onPress={() => navigation.navigate('ProductDetails')}
+        onPress={() => navigation.navigate('ProductDetails', { product: product })}
       >
-        <Image source={image} style={imageStyle} />
+        <Image source={{ uri: `${uri}${product.images[1]}` }} style={imageStyle} />
         <View style={textContainer}>
-          <Text style={textName}>{name}</Text>
-          <Text style={textPrice}>{price}</Text>
+          <Text style={textName}>{product.name.toUpperCase()}</Text>
+          <Text style={textPrice}>{product.price}$</Text>
         </View>
       </TouchableOpacity>
     );

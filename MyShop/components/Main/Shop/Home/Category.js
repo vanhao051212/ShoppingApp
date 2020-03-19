@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import Swiper from 'react-native-swiper';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, } from 'react-native';
 
-
-
-import littleIcon from '../../../../media/temp/little.jpg';
-import midiIcon from '../../../../media/temp/midi.jpg';
-import maxiIcon from '../../../../media/temp/maxi.jpg';
-
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
+const uri = 'http://192.168.1.14/app/images/type/'
 export default class Collection extends Component {
-  state = {}
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: '',
+      name: '',
+      image: ''
+    }
+  }
   render() {
-    const { navigation } = this.props;
+    const { navigation, types } = this.props;
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'center', height: 50 }}>
@@ -21,24 +23,15 @@ export default class Collection extends Component {
         <View style={{ flex: 4, alignItems: 'center' }}>
           <Swiper showsButtons={true} style={{ height: imageHeight }}>
 
-            <TouchableOpacity onPress={() => navigation.navigate('ListProduct')}>
-              <ImageBackground source={littleIcon} style={styles.image} >
-                <Text style={styles.imageText}>Maxi Dress</Text>
-              </ImageBackground>
-            </TouchableOpacity>
+            {types.map(e => (
+              <TouchableOpacity onPress={() => navigation.navigate('ListProduct')} key={e.id}>
+                <ImageBackground source={{uri:`${uri}${e.image}`}} style={styles.imageStyle} >
+                  <Text style={styles.imageText}>{e.name}</Text>
+                </ImageBackground>
+              </TouchableOpacity>
+            ))}
 
-            <TouchableOpacity onPress={() => navigation.navigate('ListProduct')}>
-              <ImageBackground source={midiIcon} style={styles.image} >
-                <Text style={styles.imageText}>Maxi Dress</Text>
-              </ImageBackground>
-            </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('ListProduct')}>
-              <ImageBackground source={maxiIcon} style={styles.image} >
-                <Text style={styles.imageText}>Maxi Dress</Text>
-              </ImageBackground>
-            </TouchableOpacity>
-            
           </Swiper>
         </View>
 
@@ -65,7 +58,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#afaeaf'
   },
-  image: {
+  imageStyle: {
     height: imageHeight,
     width: imageWidth,
     justifyContent: 'center',

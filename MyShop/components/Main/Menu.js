@@ -28,25 +28,27 @@ export default class Menu extends Component {
         )}
         {isSigning && (
           <View>
-            {/* <TouchableOpacity style={button} onPress={() => navigation.navigate('Authentication')}>
-              <Text style={buttonText}>Authentication</Text>
-            </TouchableOpacity> */}
+          
             <TouchableOpacity style={button} onPress={() => navigation.navigate('OrderHistory')}>
               <Text style={buttonText}>Order History</Text>
             </TouchableOpacity>
             <TouchableOpacity style={button} onPress={() => navigation.navigate('ChangeInfo')}>
               <Text style={buttonText}>Change Info</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={button} onPress={() => navigation.navigate('Authentication')}>
+              <Text style={buttonText}>Sign Out</Text>
+            </TouchableOpacity>
           </View>
         )}
 
+        <View style={{height:50}}></View>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#34B089', flex: 1
+    backgroundColor: '#34B089', flex: 1, justifyContent:'space-between'
   },
   profileContainer: {
     justifyContent: 'center',

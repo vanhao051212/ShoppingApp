@@ -23,7 +23,7 @@ export default class ListProduct extends Component {
               <Image source={backIcon} style={icon} />
             </TouchableOpacity>
             <Text style={headerText}>Party Dress</Text>
-            <View></View>
+            <View style={icon}></View>
           </View>
           <ScrollView style={container}>
 
@@ -42,7 +42,7 @@ export default class ListProduct extends Component {
               productName={'Ao Giap'}
               productPrice={'3000$'}
               author={'Hao Hao'}
-              color={'blue'}
+              color={'red'}
               colorName={'mau ne'}
             />
             <ProductItem
@@ -51,7 +51,7 @@ export default class ListProduct extends Component {
               productName={'Ao Giap'}
               productPrice={'3000$'}
               author={'Hao Hao'}
-              color={'blue'}
+              color={'green'}
               colorName={'mau ne'}
             />
             <ProductItem
@@ -60,7 +60,7 @@ export default class ListProduct extends Component {
               productName={'Ao Giap'}
               productPrice={'3000$'}
               author={'Hao Hao'}
-              color={'blue'}
+              color={'teal'}
               colorName={'mau ne'}
             />
           </ScrollView>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     width: 30
   },
   headerText: {
-    color: 'red',
+    color: '#b10265',
     fontSize: 20
   }
 })

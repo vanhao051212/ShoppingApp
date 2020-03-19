@@ -21,7 +21,7 @@ export default class ProductItem extends Component {
             <Text style={textColor}>Color {colorName}</Text>
             <View style={[colorStyle, { backgroundColor: color }]}></View>
             <TouchableOpacity style={textDetails} onPress={() => navigation.navigate('ProductDetails')}>
-              <Text style={{ color: 'red', fontSize: 10 }}>SHOW DETAILS</Text>
+              <Text style={{ color: '#b10265', fontSize: 10 }}>SHOW DETAILS</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -35,7 +35,11 @@ const imageHeight = height / 5;
 const imageWidth = (imageHeight / 542) * 361;
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row', margin: 10
+    flexDirection: 'row', 
+    borderColor:'#DBDBDB',
+    borderWidth:1,
+    paddingVertical:10,
+    paddingHorizontal:10
   },
   imageStyle: {
     height: imageHeight,
@@ -71,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize:15
   },
   textAuthor:{
-    fontSize:14
+    fontSize:14,
+    fontWeight:'bold'
   }
 })
