@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  View, Text, TouchableOpacity, ScrollView,
+  View, Text, TouchableOpacity, Alert,
   Dimensions, StyleSheet, Image
 } from 'react-native';
 
@@ -11,20 +11,42 @@ function toTitleCase(str) {
 
 class CartView extends Component {
 
+  increaseItem(id) {
+    const { increaseItem } = this.props;
+    increaseItem(id);
+  }
+  decreaseItem(id) {
+    const { decreaseItem } = this.props;
+    decreaseItem(id);
+  }
+  removeItem(id) {
+    const { removeItem } = this.props;
+    removeItem(id);
+  }
+  handleRemoveItem = (id) => {
+    Alert.alert(
+      'Delete This Item?',
+      'This Item will be deleted',
+      [
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        { text: 'OK', onPress: () => this.removeItem(id) },
+      ],
+      { cancelable: false }
+    )
+  }
   render() {
-    const { main, checkoutButton, checkoutTitle, wrapper,
-      productContainer, mainRight, productController,
+    const { productContainer, mainRight, productController,
       txtName, txtPrice, productImage, numberOfProduct,
       txtShowDetail, showDetailContainer } = styles;
     const { navigation, product, quantity } = this.props;
     return (
 
       <View style={productContainer}>
-        <Image source={{uri:`${uri}${product.images[0]}`}} style={productImage} />
+        <Image source={{ uri: `${uri}${product.images[0]}` }} style={productImage} />
         <View style={[mainRight]}>
           <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
             <Text style={txtName}>{toTitleCase(`${product.name}`)}</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => this.handleRemoveItem(product.id)}>
               <Text style={{ fontFamily: 'Avenir', color: '#969696' }}>X</Text>
             </TouchableOpacity>
           </View>
@@ -33,15 +55,15 @@ class CartView extends Component {
           </View>
           <View style={productController}>
             <View style={numberOfProduct}>
-              <TouchableOpacity onPress={()=>alert('need to do.')}>
+              <TouchableOpacity onPress={() => this.increaseItem(product.id)}>
                 <Text>+</Text>
               </TouchableOpacity>
               <Text>{quantity}</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.decreaseItem(product.id)}>
                 <Text>-</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={showDetailContainer} onPress={() => navigation.navigate('ProductDetails', {product:product})}>
+            <TouchableOpacity style={showDetailContainer} onPress={() => navigation.navigate('ProductDetails', { product: product })}>
               <Text style={txtShowDetail}>SHOW DETAILS</Text>
             </TouchableOpacity>
           </View>
@@ -56,28 +78,6 @@ const imageWidth = width / 4;
 const imageHeight = (imageWidth * 452) / 361;
 
 const styles = StyleSheet.create({
-  // wrapper: {
-  //   flex: 1,
-  //   backgroundColor: '#DFDFDF'
-  // },
-  // checkoutButton: {
-  //   height: 50,
-  //   margin: 10,
-  //   marginTop: 0,
-  //   backgroundColor: '#2ABB9C',
-  //   borderRadius: 2,
-  //   alignItems: 'center',
-  //   justifyContent: 'center'
-  // },
-  // main: {
-  //   width, backgroundColor: '#DFDFDF'
-  // },
-  // checkoutTitle: {
-  //   color: '#FFF',
-  //   fontSize: 15,
-  //   fontWeight: 'bold',
-  //   fontFamily: 'Avenir'
-  // },
   productContainer: {
     flexDirection: 'row',
     margin: 10,
