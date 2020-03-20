@@ -4,8 +4,6 @@ import {
   Dimensions, StyleSheet, Image
 } from 'react-native';
 
-// import sp1 from '../../../../media/temp/sp1.jpeg';
-
 const uri = 'http://192.168.1.14/app/images/product/';
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
@@ -18,7 +16,7 @@ class CartView extends Component {
       productContainer, mainRight, productController,
       txtName, txtPrice, productImage, numberOfProduct,
       txtShowDetail, showDetailContainer } = styles;
-    const { navigation, product } = this.props;
+    const { navigation, product, quantity } = this.props;
     return (
 
       <View style={productContainer}>
@@ -38,12 +36,12 @@ class CartView extends Component {
               <TouchableOpacity onPress={()=>alert('need to do.')}>
                 <Text>+</Text>
               </TouchableOpacity>
-              <Text>{product.count}</Text>
+              <Text>{quantity}</Text>
               <TouchableOpacity>
                 <Text>-</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={showDetailContainer} onPress={() => navigation.navigate('ProductDetails')}>
+            <TouchableOpacity style={showDetailContainer} onPress={() => navigation.navigate('ProductDetails', {product:product})}>
               <Text style={txtShowDetail}>SHOW DETAILS</Text>
             </TouchableOpacity>
           </View>

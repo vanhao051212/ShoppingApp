@@ -3,17 +3,15 @@ import {
   View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity
 } from 'react-native';
 
-import img1 from '../../../../media/temp/sp5.jpeg';
-import img2 from '../../../../media/temp/sp4.jpeg';
-
 const back = require('../../../../media/appIcon/back.png');
 const cart = require('../../../../media/appIcon/cartfull.png');
 
+const uri = 'http://192.168.1.14/app/images/product/';
 
-const uri='http://192.168.1.14/app/images/product/';
-
-export default class ProductDetail extends Component {
-
+export default class ProductDetails extends Component {
+  state = {
+    item: {}
+  }
   render() {
     const {
       wrapper, cardStyle, header,
@@ -22,8 +20,8 @@ export default class ProductDetail extends Component {
       textSmoke, textHighlight, textMain, titleContainer,
       descContainer, productImageStyle, descStyle, txtMaterial, txtColor
     } = styles;
-    const {navigation, route} = this.props;
-    const {product} = route.params;
+    const { navigation, route } = this.props;
+    const { product } = route.params;
     return (
       <View style={wrapper}>
         <View style={cardStyle}>
@@ -31,14 +29,17 @@ export default class ProductDetail extends Component {
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image style={backStyle} source={back} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('CartView',{product:product})}>
+            <TouchableOpacity onPress={() => navigation.navigate('Cart', {
+              screen: 'CartView',
+              params: { product: product },
+            })}>
               <Image style={cartStyle} source={cart} />
             </TouchableOpacity>
           </View>
           <View style={imageContainer}>
             <ScrollView style={{ flexDirection: 'row', padding: 10, height: swiperHeight }} horizontal >
-              <Image source={{uri:`${uri}${product.images[0]}`}} style={productImageStyle} />
-              <Image source={{uri:`${uri}${product.images[1]}`}} style={productImageStyle} />
+              <Image source={{ uri: `${uri}${product.images[0]}` }} style={productImageStyle} />
+              <Image source={{ uri: `${uri}${product.images[1]}` }} style={productImageStyle} />
             </ScrollView>
           </View>
           <View style={footer}>
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   descContainer: {
     margin: 10,
-    marginTop:0,
+    marginTop: 0,
     // paddingTop: 10,
     paddingHorizontal: 10
   },

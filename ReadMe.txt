@@ -1,4 +1,5 @@
 yarn add: navigation(stack, drawer, bottomTab)<link>; react-native-swiper@nightly
+yarn add @react-native-community/async-storage
 
 
 

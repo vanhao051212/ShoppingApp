@@ -4,69 +4,70 @@ import {
   Dimensions, StyleSheet
 } from 'react-native';
 
-import sp1 from '../../../../media/temp/sp1.jpeg';
-import global from '../global';
 import CartItem from './CartItem';
+import getCart from '../../../../api/getCart';
+import saveCart from '../../../../api/saveCart';
+import resetCart from '../../../../api/resetCart';
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 }
 
-
-class CartView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      // CartArray: [
-      //   {
-      //     count:'1',
-      //     id: "30",
-      //     name: "contrast embro",
-      //     idType: "4",
-      //     nameType: "Maxi Dress",
-      //     price: "121",
-      //     color: "Fuchsia",
-      //     material: "leather",
-      //     description: "Take your vacay-ready style to the next level with the bold personality of this embroidered maxi dress. With casually elegant details like a tassel-tie plunging neckline and hi-lo hem, it promises to be a total head-turner with heels.",
-      //     images: [
-      //       "56.jpeg",
-      //       "57.jpeg"
-      //     ]
-      //   }
-      // ]
+// start add new cart
+function addNewCart(item, prevCart) {
+  const size = prevCart.length;
+  let i;
+  for (i=0; i<size; i++){
+    if (prevCart[i].product.id == item.id){
+      return prevCart;
     }
   }
-  addProductToCart(){
-    const {product} = this.props;
-    // this.setState({CartArray:this.state.CartArray.concat(product)})
-    global.addProductToCart(product);
+  return prevCart.concat({ product:item, quantity: 1 });
+
+}
+class CartView extends Component {
+  state = {
+    cartArray: []
   }
-  // componentDidMount(){
-  //   const {product}= this.props;
-  //   console.log(product);
-  //   this.setState({
-  //   })
-  // }
+
+  componentDidMount() {
+    // console.log('start get cart');
+    // resetCart();
+    getCart().then(item => this.setState({ cartArray: item }));
+  }
+
   render() {
+    const { cartArray } = this.state;
     const { main, checkoutButton, checkoutTitle, wrapper, } = styles;
-    const { navigation, product } = this.props;
-    const { CartArray } = this.state;
+    const { navigation } = this.props;
     return (
+
       <View style={wrapper}>
+
         <ScrollView style={main}>
-          {/* {CartArray.map((item) => (
-            <CartItem navigation={navigation} product={item} key={item.id}/>
-          ))} */}
-          {/* <CartItem navigation={navigation} image={sp1}/>
-          <CartItem navigation={navigation} image={sp1}/>
-          <CartItem navigation={navigation} image={sp1}/>
-          <CartItem navigation={navigation} image={sp1}/> */}
+          {cartArray.map((item) => (
+            <CartItem navigation={navigation} product={item.product} key={item.product.id} quantity={item.quantity}/>
+          ))}
+
         </ScrollView>
         <TouchableOpacity style={checkoutButton}>
           <Text style={checkoutTitle}>TOTAL {1000}$ CHECKOUT NOW</Text>
         </TouchableOpacity>
       </View>
     );
+  }
+  static getDerivedStateFromProps(props, state) {
+    if (typeof props.route.params !== 'undefined') {
+      // console.log(props.route.params.product);
+      const { product } = props.route.params;
+      let cartArray = addNewCart(product, state.cartArray);
+      console.log(cartArray);
+      // saveCart(cartArray);
+      return {
+        cartArray: cartArray
+      }
+    }
+    return null;
   }
 }
 
@@ -97,60 +98,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'Avenir'
   },
-  // product: {
-  //   flexDirection: 'row',
-  //   margin: 10,
-  //   padding: 10,
-  //   backgroundColor: '#FFFFFF',
-  //   borderRadius: 2,
-  //   shadowColor: '#3B5458',
-  //   shadowOffset: { width: 0, height: 3 },
-  //   shadowOpacity: 0.2
-  // },
-  // productImage: {
-  //   width: imageWidth,
-  //   height: imageHeight,
-  //   flex: 1,
-  //   resizeMode: 'center'
-  // },
-  // mainRight: {
-  //   flex: 3,
-  //   justifyContent: 'space-between'
-  // },
-  // productController: {
-  //   flexDirection: 'row'
-  // },
-  // numberOfProduct: {
-  //   flex: 1,
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-around'
-  // },
-  // txtName: {
-  //   paddingLeft: 20,
-  //   color: '#A7A7A7',
-  //   fontSize: 20,
-  //   fontWeight: '400',
-  //   fontFamily: 'Avenir'
-  // },
-  // txtPrice: {
-  //   paddingLeft: 20,
-  //   color: '#C21C70',
-  //   fontSize: 20,
-  //   fontWeight: '400',
-  //   fontFamily: 'Avenir'
-  // },
-  // txtShowDetail: {
-  //   color: '#C21C70',
-  //   fontSize: 10,
-  //   fontWeight: '400',
-  //   fontFamily: 'Avenir',
-  //   textAlign: 'right',
-  // },
-  // showDetailContainer: {
-  //   flex: 1,
-  //   flexDirection: 'row',
-  //   justifyContent: 'flex-end'
-  // }
 });
 
 export default CartView;
