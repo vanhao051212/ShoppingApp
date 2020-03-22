@@ -58,7 +58,7 @@ export default class MyShop extends Component {
           {/* <Drawer.Navigator > */}
 
           <Drawer.Screen name='Home' component={Shop} />
-          {/* <Drawer.Screen name='Menu' component={MenuStackScreen} /> */}
+          <Drawer.Screen name='Menu' component={Menu} />
           <Drawer.Screen name='OrderHistory' component={OrderHistory} />
           <Drawer.Screen name='ChangeInfo' component={ChangeInfo} />
           <Drawer.Screen name='Authentication' component={Authentication} />

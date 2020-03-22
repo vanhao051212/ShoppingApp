@@ -1,105 +1,124 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, TextInput, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, TextInput, Alert } from 'react-native';
 
-import backIcon from '../../media/appIcon/back_white.png';
-import ic_logo from '../../media/appIcon/ic_logo.png';
+import signUp from '../../api/signUp';
+
 export default class SignUp extends Component {
-  state = {isSignUp:false}
+  state = {
+    name: '',
+    email: '',
+    password: '',
+    rePassword: ''
+  }
+  handleSignUp = () => {
+    const { name, email, password, rePassword } = this.state;
+    if (name == '') {
+      Alert.alert('Notice', 'Name cannot be blank');
+    }
+    if (email == '') {
+      Alert.alert('Notice', 'Email cannot be blank');
+    }
+    if (password == '') {
+      Alert.alert('Notice', 'Password cannot be blank');
+    }
+    if (rePassword == '') {
+      Alert.alert('Notice', 'Re-enter Password cannot be blank');
+    }
+    if (password == rePassword) {
+      signUp(email, name, password)
+        .then(res => {
+          if (res == 'KHONG_THANH_CONG') {
+            Alert.alert('Notice','Email or Username already taken! ');
+          }
+          else {
+            Alert.alert('Successfully!');
+            const {GotoSignIn} = this.props;
+            GotoSignIn();
+          }
+        });
+      this.setState({
+        name: '',
+        email: '',
+        password: '',
+        rePassword: ''
+      });
+    }
+    else {
+      Alert.alert(
+        'Notice',
+        'Password does not match');
+    }
+  }
+
   render() {
-    const { container, headerContainer, icon, text, textInput, 
-      buttonSign, textSign ,bottomButtonContainer,
-      activeStyle, inActiveStyle, bottomButtonLeft, bottomButtonRight} = styles;
-    const { navigation } = this.props;
-    const {isSignUp}= this.state;
-    const textSignUp = isSignUp? 'SIGN IN NOW':'SIGN UP NOW';
+    const { textInput, buttonSign, textSign } = styles;
+    const { } = this.props;
+    const { name, email, password, rePassword } = this.state;
     return (
-      <View style={container}>
-        
-        <View style={{}}>
-          <TextInput placeholder={'Enter your Email'} style={textInput}/>
-          <TextInput placeholder={'Enter your Password'} style={textInput}/>
-          <TouchableOpacity style={buttonSign} onPress={()=>alert('need to do.')}>
-            <Text style={textSign}>{textSignUp}</Text>
-          </TouchableOpacity>
-        </View>
-        
+      <View style={{}}>
+        <TextInput
+          placeholder={'Enter your Name'}
+          style={textInput}
+
+          value={name}
+          onChangeText={(text) => this.setState({ name: text })}
+        />
+        <TextInput
+          placeholder={'Enter your Email'}
+          style={textInput}
+          value={email}
+          onChangeText={(text) => this.setState({ email: text })}
+        />
+        <TextInput
+          placeholder={'Enter your Password'}
+          style={textInput}
+          secureTextEntry={true}
+          value={password}
+          onChangeText={(text) => this.setState({ password: text })}
+        />
+        <TextInput
+          placeholder={'Re-enter your Password'}
+          style={textInput}
+          secureTextEntry={true}
+          value={rePassword}
+          onChangeText={(text) => this.setState({ rePassword: text })}
+        />
+        <TouchableOpacity style={buttonSign} onPress={this.handleSignUp}>
+          <Text style={textSign}>SIGN UP NOW</Text>
+        </TouchableOpacity>
+        {/* <TouchableOpacity onPress={handleSignIn} style={textQ}>
+          <Text style={{ color: 'blue' }}>Already had account, Sign in?</Text>
+        </TouchableOpacity> */}
       </View>
     );
   }
 }
+
 const styles = StyleSheet.create({
-  container: {
+
+  textInput: {
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'white',
+    margin: 20,
+    marginBottom: 0,
+    paddingLeft: 20
+  },
+
+  buttonSign: {
+    height: 50,
+    borderRadius: 25,
     backgroundColor: '#34B089',
-    flex: 1, 
-    justifyContent:'space-between'
+    margin: 20,
+    marginBottom: 0,
+    borderWidth: 1,
+    borderColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 10
-  },
-  icon: {
-    width: 25, height: 25
-  },
-  text: {
-    fontSize: 25,
-    color: 'white'
-  },
-  textInput:{
-    height:50,
-    borderRadius:25,
-    backgroundColor:'white',
-    margin:20,
-    marginBottom:0,
-    paddingLeft:20
-  },
-  inputContainer:{
-    margin:10,
-  },
-  buttonSign:{
-    height:50,
-    borderRadius:25,
-    backgroundColor:'#34B089',
-    margin:20,
-    marginBottom:0,
-    borderWidth:1,
-    borderColor:'white',
-    justifyContent:'center',
-    alignItems:'center'
-  },
-  textSign:{
+  textSign: {
     fontSize: 15,
     color: 'white'
   },
-  bottomButtonContainer:{
-    flexDirection:'row',
-    height:50,
-    margin:20,
-    justifyContent:'center',
 
-  },
-  bottomButtonLeft:{
-    alignItems:'center',
-    justifyContent:'center',
-    flex:1,
-    backgroundColor:'white',
-    marginRight:1,
-    borderBottomLeftRadius:25,
-    borderTopLeftRadius:25
-  },
-  bottomButtonRight:{
-    alignItems:'center',
-    justifyContent:'center',
-    flex:1,
-    backgroundColor:'white',
-    marginLeft:1,
-    borderTopRightRadius:25,
-    borderBottomRightRadius:25
-  },
-  activeStyle:{
-    color:'#34B089'
-  },
-  inActiveStyle:{
-    color:'#d7d7d7'
-  }
 })

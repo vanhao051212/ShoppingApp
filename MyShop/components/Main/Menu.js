@@ -3,52 +3,81 @@ import { View, StyleSheet, Text, Button, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import profile from '../../media/temp/profile.png'
+
+import global from './global';
+import getToken from '../../api/getToken';
+import checkLogin from '../../api/checkLogin';
+import removeToken from '../../api/removeToken';
 export default class Menu extends Component {
-  state = {
-    isSigning: true
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: null
+    }
+    global.onSignIn = this.onSignIn.bind(this)
+  }
+  componentDidMount() {
+    getToken()
+      .then(res => {
+        if (res) {
+          checkLogin(res)
+            .then(res => {
+              this.setState({ user: res ? res.user : null })
+            });
+        }
+      })
+  }
+  onSignIn(user) {
+    this.setState({ user })
+  }
+  handleSignOut = () => {
+    const { navigation } = this.props;
+    removeToken();
+    this.setState({user:null})
+    navigation.navigate("Authentication");
   }
   render() {
     const { navigation } = this.props;
-    const { isSigning } = this.state;
+    const { user } = this.state;
     const { container, profileContainer, imageProfile, textProfile, button, buttonText } = styles;
     return (
       <View style={container}>
         <View >
           <TouchableOpacity style={profileContainer} onPress={() => alert('need to do...')}>
             <Image source={profile} style={imageProfile} />
-            <Text style={textProfile}>Phung Van Hao</Text>
+            <Text style={textProfile}>{user ? user.name : ''}</Text>
           </TouchableOpacity>
         </View>
-        {!isSigning && (
+        {!user && (
           <View>
             <TouchableOpacity style={[button, { alignItems: 'center' }]} onPress={() => navigation.navigate('Authentication')}>
               <Text style={buttonText}>SIGN IN</Text>
             </TouchableOpacity>
           </View>
         )}
-        {isSigning && (
+        {user && (
           <View>
-          
+
             <TouchableOpacity style={button} onPress={() => navigation.navigate('OrderHistory')}>
               <Text style={buttonText}>Order History</Text>
             </TouchableOpacity>
             <TouchableOpacity style={button} onPress={() => navigation.navigate('ChangeInfo')}>
               <Text style={buttonText}>Change Info</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={button} onPress={() => navigation.navigate('Authentication')}>
+            <TouchableOpacity style={button} onPress={this.handleSignOut}>
               <Text style={buttonText}>Sign Out</Text>
             </TouchableOpacity>
           </View>
         )}
 
-        <View style={{height:50}}></View>
+        <View style={{ height: 50 }}></View>
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#34B089', flex: 1, justifyContent:'space-between'
+    backgroundColor: '#34B089', flex: 1, justifyContent: 'space-between'
   },
   profileContainer: {
     justifyContent: 'center',
@@ -62,7 +91,7 @@ const styles = StyleSheet.create({
   },
   textProfile: {
     color: 'white',
-    fontSize:20
+    fontSize: 20
   },
   button: {
     backgroundColor: 'white',
@@ -75,6 +104,6 @@ const styles = StyleSheet.create({
   buttonText: {
     paddingLeft: 10,
     color: '#34B089',
-    fontSize:17
+    fontSize: 17
   }
 })

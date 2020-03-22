@@ -9,10 +9,7 @@ export default class OrderHistory extends Component {
     super(props);
     this.state = { arrOrder: [] };
   }
-  // goBackToMain() {
-  //   const { navigator } = this.props;
-  //   navigator.pop();
-  // }
+
   render() {
     const { wrapper, header, headerTitle, backIconStyle, body, orderRow } = styles;
     const { navigation } = this.props;
@@ -21,7 +18,7 @@ export default class OrderHistory extends Component {
         <View style={header}>
           <View />
           <Text style={headerTitle}>Order History</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image source={backSpecial} style={backIconStyle} />
           </TouchableOpacity>
         </View>

@@ -1,58 +1,33 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, TextInput, Image } from 'react-native';
 
-import backIcon from '../../media/appIcon/back_white.png';
-import ic_logo from '../../media/appIcon/ic_logo.png';
-
-
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+import HeaderSign from './HeaderSign';
 export default class Authentication extends Component {
   state = { isSignUp: true }
-
   render() {
-    const { container, headerContainer, icon, text, textInput,
-      buttonSign, textSign, bottomButtonContainer,
+    const { container, bottomButtonContainer,
       activeStyle, inActiveStyle, bottomButtonLeft, bottomButtonRight } = styles;
     const { navigation } = this.props;
     const { isSignUp } = this.state;
-    const textSignUp = isSignUp ? 'SIGN IN NOW' : 'SIGN UP NOW';
     return (
       <View style={container}>
-        <View style={headerContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Image source={backIcon} style={icon} />
-          </TouchableOpacity>
-          <Text style={text}>Wearing a Dress</Text>
-          <TouchableOpacity onPress={() => alert('need to do...')}>
-            <Image source={ic_logo} style={styles.icon} />
-          </TouchableOpacity>
-        </View>
-
+        <HeaderSign navigation={navigation} />
         {isSignUp ? (
-          <View style={{}}>
-            <TextInput placeholder={'Enter your Email'} style={textInput} />
-            <TextInput placeholder={'Enter your Password'} style={textInput} />
-            <TouchableOpacity style={buttonSign} onPress={() => alert('need to do.')}>
-              <Text style={textSign}>{textSignUp}</Text>
-            </TouchableOpacity>
-          </View>
+          <SignIn navigation={navigation} />
+
         ) : (
-            <View style={{}}>
-              <TextInput placeholder={'Enter your Name'} style={textInput} />
-              <TextInput placeholder={'Enter your Email'} style={textInput} />
-              <TextInput placeholder={'Enter your Password'} style={textInput} />
-              <TextInput placeholder={'Re-enter your Password'} style={textInput} />
-              <TouchableOpacity style={buttonSign} onPress={() => alert('need to do.')}>
-                <Text style={textSign}>{textSignUp}</Text>
-              </TouchableOpacity>
-            </View>
+            <SignUp GotoSignIn={() => this.setState({ isSignUp: true })} />
+
           )}
 
         <View style={bottomButtonContainer}>
-          <TouchableOpacity style={bottomButtonLeft} onPress={() => alert('need to do.')}>
+          <TouchableOpacity style={bottomButtonLeft} onPress={() => this.setState({ isSignUp: true })}>
             <Text style={isSignUp ? activeStyle : inActiveStyle}>SIGN IN</Text>
           </TouchableOpacity>
-          {/* <View style={{width:5, backgroundColor:'#34B089'}}></View> */}
-          <TouchableOpacity style={bottomButtonRight} onPress={() => alert('need to do.')}>
+
+          <TouchableOpacity style={bottomButtonRight} onPress={() => this.setState({ isSignUp: false })}>
             <Text style={isSignUp ? inActiveStyle : activeStyle}>SIGN UP</Text>
           </TouchableOpacity>
         </View>
@@ -65,44 +40,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#34B089',
     flex: 1,
     justifyContent: 'space-between'
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 10
-  },
-  icon: {
-    width: 25, height: 25
-  },
-  text: {
-    fontSize: 25,
-    color: 'white'
-  },
-  textInput: {
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'white',
-    margin: 20,
-    marginBottom: 0,
-    paddingLeft: 20
-  },
-  inputContainer: {
-    margin: 10,
-  },
-  buttonSign: {
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#34B089',
-    margin: 20,
-    marginBottom: 0,
-    borderWidth: 1,
-    borderColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  textSign: {
-    fontSize: 15,
-    color: 'white'
   },
   bottomButtonContainer: {
     flexDirection: 'row',
@@ -134,5 +71,6 @@ const styles = StyleSheet.create({
   },
   inActiveStyle: {
     color: '#d7d7d7'
-  }
+  },
+
 })
