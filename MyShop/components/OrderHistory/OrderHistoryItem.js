@@ -2,51 +2,37 @@ import React, { Component } from 'react';
 import {
   View, TouchableOpacity, Text, Image, StyleSheet, Dimensions, ScrollView
 } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
 import backSpecial from '../../media/appIcon/backs.png';
 import getOrderHistory from '../../api/getOrderHistory';
 import getToken from '../../api/getToken';
-import OrderHistoryItem from './OrderHistoryItem';
 export default class OrderHistory extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { arrOrder: [] };
-  }
-  componentDidMount() {
-    getToken()
-      .then(res => getOrderHistory(res))
-      .then(res => this.setState({ arrOrder: res }))
-  }
+
+
   render() {
     const { wrapper, header, headerTitle, backIconStyle, body, orderRow } = styles;
-    const { navigation } = this.props;
-    const { arrOrder } = this.state;
+    const { navigation , info} = this.props;
     return (
-      <View style={wrapper}>
-        <View style={header}>
-          <View />
-          <Text style={headerTitle}>Order History</Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image source={backSpecial} style={backIconStyle} />
-          </TouchableOpacity>
+
+      <View style={orderRow}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>Order id:</Text>
+          <Text style={{ color: '#2ABB9C' }}>{info.id}</Text>
         </View>
-        <View style={body}>
-          {/* <ScrollView>
-            <OrderHistoryItem/>
-            <OrderHistoryItem/>
-            <OrderHistoryItem/>
-            <OrderHistoryItem/>
-          </ScrollView> */}
-          <FlatList
-            data={arrOrder}
-            renderItem={(e) =>
-              <OrderHistoryItem
-                info={e.item}
-              />
-            }
-          />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>OrderTime:</Text>
+          <Text style={{ color: '#C21C70' }}>{info.date_order}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>Status:</Text>
+          <Text style={{ color: '#2ABB9C' }}>{info.status}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={{ color: '#9A9A9A', fontWeight: 'bold' }}>Total:</Text>
+          <Text style={{ color: '#C21C70', fontWeight: 'bold' }}>{info.total}$</Text>
         </View>
       </View>
+
+
     );
   }
 }

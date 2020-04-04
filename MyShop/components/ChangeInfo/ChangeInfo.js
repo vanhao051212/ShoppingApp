@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {
-  View, TouchableOpacity, Text, Image, StyleSheet, TextInput
+  View, TouchableOpacity, Text, Image, StyleSheet, TextInput, Alert
 } from 'react-native';
 import backSpecial from '../../media/appIcon/backs.png';
 
+import changeInfo from '../../api/changeInfo';
+import global from '../global';
 export default class ChangeInfo extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +16,17 @@ export default class ChangeInfo extends Component {
     };
   }
 
+  handleChangeInfo = () => {
+    const {navigation} = this.props;
+    const { token } = this.props.route.params;
+    const { txtName, txtAddress, txtPhone } = this.state;
+    changeInfo(token, txtName, txtPhone, txtAddress)
+    .then (res=>{
+      global.changeInfo(res);
+    })
+    Alert.alert('Change Info Success')
+    navigation.navigate('Home');
+  }
 
   render() {
     const {
@@ -53,7 +66,7 @@ export default class ChangeInfo extends Component {
             value={phone}
             onChangeText={txtPhone => this.setState({ ...this.state, txtPhone })}
           />
-          <TouchableOpacity style={signInContainer}>
+          <TouchableOpacity style={signInContainer} onPress={this.handleChangeInfo}>
             <Text style={signInTextStyle}>CHANGE YOUR INFOMATION</Text>
           </TouchableOpacity>
         </View>

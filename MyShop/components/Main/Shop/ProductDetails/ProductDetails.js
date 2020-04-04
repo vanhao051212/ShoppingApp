@@ -3,14 +3,22 @@ import {
   View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity
 } from 'react-native';
 
+import getCart from '../../../../api/getCart';
+
+const host = require('../../../../api/ip')
 const back = require('../../../../media/appIcon/back.png');
 const cart = require('../../../../media/appIcon/cartfull.png');
 
-const uri = 'http://192.168.1.14/app/images/product/';
+const uri = `http://${host.host}/app/images/product/`;
+
+/****** bug: should be open component Cart to add new cart ******/
+
+// use api to get cart from storage then add new cart and save this,
+// delete global onAddCart ....
 
 export default class ProductDetails extends Component {
   state = {
-    item: {}
+    item: {},
   }
   render() {
     const {
@@ -22,6 +30,7 @@ export default class ProductDetails extends Component {
     } = styles;
     const { navigation, route } = this.props;
     const { product } = route.params;
+    // console.log(product);
     return (
       <View style={wrapper}>
         <View style={cardStyle}>
@@ -29,10 +38,13 @@ export default class ProductDetails extends Component {
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image style={backStyle} source={back} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Cart', {
-              screen: 'CartView',
-              params: { product: product },
-            })}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Cart', {
+                screen: 'CartView',
+                params: { product: product },
+              })}
+            // onPress={this.handleAddCart}
+            >
               <Image style={cartStyle} source={cart} />
             </TouchableOpacity>
           </View>

@@ -6,9 +6,43 @@ import ic_logo from '../../../media/appIcon/ic_logo.png';
 import ic_menu from '../../../media/appIcon/ic_menu.png';
 const { height } = Dimensions.get('window');
 
+import search from '../../../api/search';
+import global from '../../global';
 export default class Header extends Component {
+  state={
+    text:''
+  }
+  // handleSubmit=()=>{
+  //   const {text}= this.state;
+  //   const{navigation}= this.props;
+  //   search(text)
+  //   .then(res=>{
+  //     global.onSearch(res);
+  //     // navigation.navigate('Search');
+  //   })
+  //   .catch(e=>console.log(e))
+
+  // }
+  handleSubmit = () => {
+    const {text}= this.state;
+    const{navigation}= this.props;
+    search(text)
+      .then(res => {
+        navigation.navigate('Search');
+        global.onSearch(res);
+        // saveToken(res.token);
+        // this.setState({
+        //   email: '',
+        //   password: ''
+        // })
+        
+      })
+      .catch(e => console.log(e));
+
+  }
   render() {
     const { navigation } = this.props;
+    const {text}= this.state;
     return (
       <View style={styles.container}>
         <View style={styles.menu}>
@@ -25,6 +59,10 @@ export default class Header extends Component {
           <TextInput
             style={styles.textInput}
             placeholder={'What do you want to buy?'}
+            value={text}
+            onChangeText={(text)=>this.setState({text})}
+            onSubmitEditing={this.handleSubmit.bind(this)}
+            // onFocus={this.handleSearch}
           />
         </View>
 

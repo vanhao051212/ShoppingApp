@@ -4,41 +4,55 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import profile from '../../media/temp/profile.png'
 
-import global from './global';
+import global from '../global';
 import getToken from '../../api/getToken';
 import checkLogin from '../../api/checkLogin';
 import removeToken from '../../api/removeToken';
+import refreshToken from '../../api/refreshToken';
 export default class Menu extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: null
+      user: null,
+      token: ''
     }
-    global.onSignIn = this.onSignIn.bind(this)
+    global.onSignIn = this.onSignIn.bind(this);
+    global.changeInfo = this.changeInfo.bind(this);
   }
   componentDidMount() {
     getToken()
       .then(res => {
         if (res) {
+          this.setState({ token: res })
           checkLogin(res)
             .then(res => {
               this.setState({ user: res ? res.user : null })
             });
         }
       })
+
+    // setInterval(()=>{
+    //   getToken().then(res=>console.log(res))
+    // },3000) 
+    // setInterval(() => {
+    //   refreshToken(this.state.token)
+    // }, 60 * 1000)
   }
   onSignIn(user) {
-    this.setState({ user })
+    this.setState({ user });
+  }
+  changeInfo(user) {
+    this.setState({ user });
   }
   handleSignOut = () => {
     const { navigation } = this.props;
     removeToken();
-    this.setState({user:null})
+    this.setState({ user: null })
     navigation.navigate("Authentication");
   }
   render() {
     const { navigation } = this.props;
-    const { user } = this.state;
+    const { user, token } = this.state;
     const { container, profileContainer, imageProfile, textProfile, button, buttonText } = styles;
     return (
       <View style={container}>
@@ -61,7 +75,7 @@ export default class Menu extends Component {
             <TouchableOpacity style={button} onPress={() => navigation.navigate('OrderHistory')}>
               <Text style={buttonText}>Order History</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={button} onPress={() => navigation.navigate('ChangeInfo')}>
+            <TouchableOpacity style={button} onPress={() => navigation.navigate('ChangeInfo', { token: token })}>
               <Text style={buttonText}>Change Info</Text>
             </TouchableOpacity>
             <TouchableOpacity style={button} onPress={this.handleSignOut}>

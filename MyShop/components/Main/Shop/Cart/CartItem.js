@@ -3,8 +3,8 @@ import {
   View, Text, TouchableOpacity, Alert,
   Dimensions, StyleSheet, Image
 } from 'react-native';
-
-const uri = 'http://192.168.1.14/app/images/product/';
+const host =require('../../../../api/ip');
+const uri = `http://${host.host}/app/images/product/`;
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 
-import getListData from '../../../../api/getProductList';
+import getTopProduct from '../../../../api/getTopProduct';
 import Collection from './Collection';
 import Category from './Category';
 import TopProduct from './TopProduct';
@@ -15,7 +15,7 @@ export default class HomeView extends Component {
     };
   }
   componentDidMount() {
-    getListData()
+    getTopProduct()
       .then(resJson => {
         const { type, product } = resJson;
         this.setState({

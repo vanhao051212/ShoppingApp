@@ -6,6 +6,9 @@ import banner from '../../../../media/temp/banner.jpg';
 const { width,height } = Dimensions.get('window');
 export default class Collection extends Component {
   state = {}
+  handleShowCollection=()=>{
+    
+  }
   render() {
     const { navigation } = this.props;
     return (
@@ -13,7 +16,7 @@ export default class Collection extends Component {
         <View style={{ justifyContent:'center', height:50 }}>
           <Text style={styles.textTitle}>SPRING COLLECTION</Text>
         </View>
-        <TouchableOpacity style={{ flex: 4, alignItems:'center' }} onPress={() => navigation.navigate('ListProduct')}>
+        <TouchableOpacity style={{ flex: 4, alignItems:'center' }} onPress={this.handleShowCollection}>
           <Image source={banner} style={styles.image} resizeMode={'center'}/>
         </TouchableOpacity>
       </View>

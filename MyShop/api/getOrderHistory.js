@@ -1,15 +1,15 @@
 import { host as _host } from './ip';
 
-const checkLogin = (token) => (
-  fetch(`http://${_host}/app/check_login.php`, {
+
+const getOrderHistory = (token) => (
+  fetch(`http://${_host}/app/order_history.php`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({token }),
+    body: JSON.stringify({ token: token}),
   })
     .then(res => res.json())
 )
-
-export default checkLogin;
+module.exports = getOrderHistory;

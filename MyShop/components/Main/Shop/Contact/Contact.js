@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+// import { MapView } from 'react-native-maps';
+
 import map from '../../../../media/appIcon/map.png';
 
 import phoneIcon from '../../../../media/appIcon/phone.png';
@@ -18,6 +20,8 @@ class Contact extends Component {
         <View style={mapContainer}>
           <Image
             style={{ flex: 1, alignSelf: 'stretch', width: undefined }} source={map}
+          />
+          
           />
         </View>
         <View style={infoContainer}>

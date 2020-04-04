@@ -1,74 +1,79 @@
+import uuidv4 from 'uuid/v4';
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Button, ScrollView, Image, Dimensions } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, StyleSheet, Text, Image, Dimensions, RefreshControl } from 'react-native';
+import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 
 import ProductItem from './ProductItem';
+import getListProdcuct from '../../../../api/getListProduct';
 
-import sp1 from '../../../../media/temp/sp1.jpeg';
-import sp2 from '../../../../media/temp/sp2.jpeg';
-import sp3 from '../../../../media/temp/sp3.jpeg';
-import sp4 from '../../../../media/temp/sp4.jpeg';
-import sp5 from '../../../../media/temp/sp5.jpeg';
 import backIcon from '../../../../media/appIcon/backList.png'
+
+const keyExtractor = ({ id }) => id.toString();
+
 export default class ListProduct extends Component {
+  state = {
+    productList: [],
+    refreshing: false,
+    page: 1,
+    id: ''
+  }
+  componentDidMount() {
+    const { category } = this.props.route.params;
+    this.setState({ id: category.id });
+    getListProdcuct(category.id, 1)
+      .then(res => this.setState({ productList: res }));
+  }
+  onRefresh = () => {
+    const { id, page, productList } = this.state;
+    this.setState({ refreshing: true, page: page < 4 ? page + 1 : page });
+    let newList = productList;
+    getListProdcuct(id, page)
+      .then(res => {
+        newList = newList.concat(res);
+        this.setState({ productList: newList, refreshing: false });
+      })
+      .catch(e => console.log(e));
+  }
   render() {
-    const { navigation } = this.props;
+    const { navigation, route } = this.props;
+    const { category } = route.params;
+    const { productList, refreshing } = this.state;
     const { container, header, icon, headerText } = styles;
     return (
       <View style={{ flex: 1, }}>
-        {/* <Header navigation={navigation} /> */}
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#DBDBDB' }}>
+        <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#DBDBDB' }}>
           <View style={header}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image source={backIcon} style={icon} />
             </TouchableOpacity>
-            <Text style={headerText}>Party Dress</Text>
+            <Text style={headerText}>{category.name}</Text>
             <View style={icon}></View>
           </View>
-          <ScrollView style={container}>
 
-            <ProductItem
-              navigation={navigation}
-              image={sp1}
-              productName={'Ao Giap'}
-              productPrice={'3000$'}
-              author={'Hao Hao'}
-              color={'blue'}
-              colorName={'mau ne'}
+          <View style={container}>
+            <FlatList
+              data={productList}
+              renderItem={(e) =>
+                <ProductItem
+                  navigation={navigation}
+                  product={e.item}
+                  key={e.item.id}
+                />
+              }
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={this.onRefresh}
+                />
+              }
+
+              /****** warning here... key should be unique ******/
+              keyExtractor={items=>items.id}
             />
-            <ProductItem
-              navigation={navigation}
-              image={sp2}
-              productName={'Ao Giap'}
-              productPrice={'3000$'}
-              author={'Hao Hao'}
-              color={'red'}
-              colorName={'mau ne'}
-            />
-            <ProductItem
-              navigation={navigation}
-              image={sp3}
-              productName={'Ao Giap'}
-              productPrice={'3000$'}
-              author={'Hao Hao'}
-              color={'green'}
-              colorName={'mau ne'}
-            />
-            <ProductItem
-              navigation={navigation}
-              image={sp4}
-              productName={'Ao Giap'}
-              productPrice={'3000$'}
-              author={'Hao Hao'}
-              color={'teal'}
-              colorName={'mau ne'}
-            />
-          </ScrollView>
-          {/* <Button
-            title={'Home'}
-            onPress={() => navigation.goBack ()}
-          /> */}
+          </View>
+          <View style={{ flex: 0.1 }}></View>
         </View>
+
       </View>
     );
   }
@@ -79,10 +84,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     width: width - 20,
+    flex: 10
   },
   header: {
     margin: 10,
-    marginBottom:0,
+    marginBottom: 0,
     flexDirection: 'row',
     height: 50,
     width: width - 20,
@@ -99,3 +105,14 @@ const styles = StyleSheet.create({
     fontSize: 20
   }
 })
+
+
+{/* <ScrollView style={container}>
+            {productList.map(e => (
+              <ProductItem
+                key={e.id}
+                navigation={navigation}
+                product={e}
+              />
+            ))}
+          </ScrollView> */}

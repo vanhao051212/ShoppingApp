@@ -1,5 +1,6 @@
+const host = require('./ip');
 const signIn = (email, password) => (
-  fetch('http://192.168.1.14/app/login.php', {
+  fetch(`http://${host.host}/app/login.php`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

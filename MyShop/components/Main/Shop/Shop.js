@@ -19,31 +19,6 @@ import searcgIcon from '../../../media/appIcon/search0.png';
 import contactIconS from '../../../media/appIcon/contact.png';
 import contactIcon from '../../../media/appIcon/contact0.png';
 
-// const HomeStack = createStackNavigator();
-// const CartStack = createStackNavigator();
-// const SearchStack = createStackNavigator();
-// const ContactStack = createStackNavigator();
-
-// const HomeStackScreen = () => (
-//   <HomeStack.Navigator headerMode={'float'} screenOptions={{ headerShown: false }}>
-//     <HomeStack.Screen name='Home' component={Home} />
-//   </HomeStack.Navigator>
-// )
-// const CartStackScreen = () => (
-//   <CartStack.Navigator screenOptions={{ headerShown: false }}>
-//     <CartStack.Screen name='Cart' component={Cart} />
-//   </CartStack.Navigator>
-// )
-// const SearchStackScreen = () => (
-//   <SearchStack.Navigator screenOptions={{ headerShown: false }}>
-//     <SearchStack.Screen name='Search' component={Search} />
-//   </SearchStack.Navigator>
-// )
-// const ContactStackScreen = () => (
-//   <ContactStack.Navigator screenOptions={{ headerShown: false }}>
-//     <ContactStack.Screen name='Contact' component={Contact} />
-//   </ContactStack.Navigator>
-// )
 
 const BottomTab = createBottomTabNavigator();
 
@@ -53,18 +28,18 @@ export default class Shop extends Component {
     return (
       <View style={{ flex: 1, }}>
         <Header navigation={navigation} />
-        <BottomTab.Navigator tabBarOptions={{activeTintColor: '#34B089',}}>
+        <BottomTab.Navigator tabBarOptions={{ activeTintColor: '#34B089', }}>
           <BottomTab.Screen name='Home' component={Home}
-            options={{ tabBarIcon: () => <Image source={homeIconS} style={styles.icon}/> }}
+            options={{ tabBarIcon: () => <Image source={homeIconS} style={styles.icon} /> }}
           />
           <BottomTab.Screen name='Cart' component={Cart}
-            options={{ tabBarIcon: () => <Image source={cartIconS} style={styles.icon}/> }}
+            options={{ tabBarIcon: () => <Image source={cartIconS} style={styles.icon} /> }}
           />
           <BottomTab.Screen name='Search' component={Search}
-            options={{ tabBarIcon: () => <Image source={searchIconS} style={styles.icon}/> }}
+            options={{ tabBarIcon: () => <Image source={searchIconS} style={styles.icon} /> }}
           />
           <BottomTab.Screen name='Contact' component={Contact}
-            options={{ tabBarIcon: () => <Image source={contactIconS} style={styles.icon}/> }}
+            options={{ tabBarIcon: () => <Image source={contactIconS} style={styles.icon} /> }}
           />
         </BottomTab.Navigator>
       </View>
@@ -72,6 +47,6 @@ export default class Shop extends Component {
   }
 }
 
-const styles= StyleSheet.create({
-  icon:{width:25, height:25}
+const styles = StyleSheet.create({
+  icon: { width: 25, height: 25 }
 })

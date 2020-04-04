@@ -19,6 +19,7 @@ import Contact from './components/Main/Shop/Contact/Contact';
 import Header from './components/Main/Shop/Header';
 import SignIn from './components/Authentication/SignIn';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import refreshToken from './api/refreshToken';
 
 const Stack = createStackNavigator();
 
@@ -50,6 +51,9 @@ const CustomDrawer = ({ navigation }) => {
 // }
 export default class MyShop extends Component {
 
+  componentDidMount(){
+    setInterval(refreshToken, 5000);
+  }
   render() {
     // const { isSigning } = this.state;
     return (

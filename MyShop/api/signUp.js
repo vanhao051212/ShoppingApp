@@ -1,5 +1,8 @@
+import { host as _host } from './ip';
+
+
 const signUp = (email, name, password) => (
-  fetch('http://192.168.1.14/app/register.php', {
+  fetch(`http://${_host}/app/register.php`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -9,4 +12,4 @@ const signUp = (email, name, password) => (
   })
     .then(res => res.text())
 )
-module.exports = signUp;
+export default signUp;

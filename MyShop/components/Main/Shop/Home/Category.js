@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Swiper from 'react-native-swiper';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, } from 'react-native';
-
+const host=require('../../../../api/ip');
 const { width } = Dimensions.get('window');
-const uri = 'http://192.168.1.14/app/images/type/'
+const uri = `http://${host.host}/app/images/type/`;
 export default class Collection extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +24,7 @@ export default class Collection extends Component {
           <Swiper showsButtons={true} style={{ height: imageHeight }}>
 
             {types.map(e => (
-              <TouchableOpacity onPress={() => navigation.navigate('ListProduct')} key={e.id}>
+              <TouchableOpacity onPress={() => navigation.navigate('ListProduct', {category:e})} key={e.id}>
                 <ImageBackground source={{uri:`${uri}${e.image}`}} style={styles.imageStyle} >
                   <Text style={styles.imageText}>{e.name}</Text>
                 </ImageBackground>

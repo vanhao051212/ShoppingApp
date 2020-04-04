@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import sp4 from '../../../../media/temp/sp4.jpeg';
-
-const uri = 'http://192.168.1.14/app/images/product/';
+const host = require ('../../../../api/ip');
+const uri = `http://${host.host}/app/images/product/`;
 export default class Product extends Component {
   state = {}
   static propTypes = {

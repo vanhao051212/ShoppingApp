@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
 
-
+const host = require ('../../../../api/ip');
+const uri = `http://${host.host}/app/images/product/`;
 
 export default class ProductItem extends Component {
   state = {}
   render() {
-    const { navigation, image, productName, productPrice, author, colorName, color } = this.props;
+    const { navigation, product} = this.props;
     const { container, imageStyle, rightContainer, bottomRightContainer, textDetails, colorStyle,
-      textName, textPrice, textColor, textAuthor } = styles;
+      textName, textPrice, textColor, textMaterial } = styles;
     return (
 
       <View style={container}>
-        <Image source={image} style={imageStyle} />
+        <Image source={{ uri: `${uri}${product.images[0]}` }} style={imageStyle} />
         <View style={rightContainer}>
-          <Text style={textName}>{productName}</Text>
-          <Text style={textPrice}>{productPrice}</Text>
-          <Text style={textAuthor}>{author}</Text>
+          <Text style={textName}>{ product.name}</Text>
+          <Text style={textPrice}>{product.price}$</Text>
+          <Text style={textMaterial}>{product.material}</Text>
           <View style={bottomRightContainer}>
-            <Text style={textColor}>Color {colorName}</Text>
-            <View style={[colorStyle, { backgroundColor: color }]}></View>
-            <TouchableOpacity style={textDetails} onPress={() => navigation.navigate('ProductDetails')}>
+            <Text style={textColor}>Color {product.color}</Text>
+            <View style={[colorStyle, { backgroundColor: product.color }]}></View>
+            <TouchableOpacity style={textDetails} onPress={() => navigation.navigate('ProductDetails',{product})}>
               <Text style={{ color: '#b10265', fontSize: 10 }}>SHOW DETAILS</Text>
             </TouchableOpacity>
           </View>
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
   textColor: {
     fontSize:15
   },
-  textAuthor:{
+  textMaterial:{
     fontSize:14,
     fontWeight:'bold'
   }

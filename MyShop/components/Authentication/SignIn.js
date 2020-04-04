@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, TextInput } from 'react-native';
 
 import signIn from '../../api/signIn';
-import global from '../Main/global'
+import global from '../global'
 import saveToken from '../../api/saveToken';
 export default class SignIn extends Component {
   state = {

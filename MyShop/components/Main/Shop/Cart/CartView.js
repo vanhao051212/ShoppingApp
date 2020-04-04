@@ -8,6 +8,9 @@ import CartItem from './CartItem';
 import getCart from '../../../../api/getCart';
 import saveCart from '../../../../api/saveCart';
 import resetCart from '../../../../api/resetCart';
+import global from '../../../global';
+import sendOrder from '../../../../api/sendOrder';
+import getToken from '../../../../api/getToken';
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
@@ -25,13 +28,22 @@ function addNewCart(item, prevCart) {
 
 }
 class CartView extends Component {
-  state = {
-    cartArray: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      cartArray: []
+    }
+    global.onAddCart = this.onAddCart.bind(this);
   }
 
   componentDidMount() {
     // resetCart();
     getCart().then(item => this.setState({ cartArray: item }));
+  }
+  onAddCart(product) {
+    const { cartArray } = this.state;
+    const newCart = addNewCart(product, cartArray);
+    this.setState({ cartArray: newCart }, () => saveCart(this.state.cartArray));
   }
   increaseItem = (id) => {
     const newCart = this.state.cartArray.map(e => {
@@ -54,17 +66,25 @@ class CartView extends Component {
     }, () => saveCart(this.state.cartArray));
   }
 
-
+  handleCheckout=async()=>{
+    const token = await getToken();
+    const {cartArray}= this.state;
+    const arrDetail= cartArray.map(e=>({id:e.product.id, quantity:e.quantity}));
+    // sendOrder(token, arrDetail);
+    this.setState({ cartArray: [] });
+    // console.log(cartArray);
+    resetCart();
+  }
   render() {
     const { cartArray } = this.state;
     const { main, checkoutButton, checkoutTitle, wrapper, } = styles;
     const { navigation } = this.props;
-    const arrTotal = cartArray.map(e=>e.product.price*e.quantity);
+    const arrTotal = cartArray.map(e => e.product.price * e.quantity);
     let total;
-    if (cartArray.length === 0){
-       total = 0;
+    if (cartArray.length === 0) {
+      total = 0;
     }
-    else  total= arrTotal.reduce((a, b)=>a+b);
+    else total = arrTotal.reduce((a, b) => a + b);
     return (
 
       <View style={wrapper}>
@@ -83,7 +103,7 @@ class CartView extends Component {
           ))}
 
         </ScrollView>
-        <TouchableOpacity style={checkoutButton}>
+        <TouchableOpacity style={checkoutButton} onPress={this.handleCheckout}>
           <Text style={checkoutTitle}>TOTAL {total}$ CHECKOUT NOW</Text>
         </TouchableOpacity>
       </View>
@@ -92,6 +112,7 @@ class CartView extends Component {
   static getDerivedStateFromProps(props, state) {
     if (typeof props.route.params !== 'undefined') {
       const { product } = props.route.params;
+      // console.log(product);
       let cartArray = addNewCart(product, state.cartArray);
       saveCart(cartArray);
       return {
