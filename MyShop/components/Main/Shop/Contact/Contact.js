@@ -21,8 +21,6 @@ class Contact extends Component {
           <Image
             style={{ flex: 1, alignSelf: 'stretch', width: undefined }} source={map}
           />
-          
-          />
         </View>
         <View style={infoContainer}>
           <View style={rowInfoContainer}>

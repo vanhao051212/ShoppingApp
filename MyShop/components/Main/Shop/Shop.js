@@ -15,7 +15,7 @@ import homeIcon from '../../../media/appIcon/home0.png';
 import cartIconS from '../../../media/appIcon/cart.png';
 import cartIcon from '../../../media/appIcon/cart0.png';
 import searchIconS from '../../../media/appIcon/search.png';
-import searcgIcon from '../../../media/appIcon/search0.png';
+import searchIcon from '../../../media/appIcon/search0.png';
 import contactIconS from '../../../media/appIcon/contact.png';
 import contactIcon from '../../../media/appIcon/contact0.png';
 
@@ -30,16 +30,44 @@ export default class Shop extends Component {
         <Header navigation={navigation} />
         <BottomTab.Navigator tabBarOptions={{ activeTintColor: '#34B089', }}>
           <BottomTab.Screen name='Home' component={Home}
-            options={{ tabBarIcon: () => <Image source={homeIconS} style={styles.icon} /> }}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                focused ?
+                  <Image source={homeIconS} style={styles.icon} />
+                  :
+                  <Image source={homeIcon} style={styles.icon} />
+              )
+            }}
           />
           <BottomTab.Screen name='Cart' component={Cart}
-            options={{ tabBarIcon: () => <Image source={cartIconS} style={styles.icon} /> }}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                focused ?
+                  <Image source={cartIconS} style={styles.icon} />
+                  :
+                  <Image source={cartIcon} style={styles.icon} />
+              )
+            }}
           />
           <BottomTab.Screen name='Search' component={Search}
-            options={{ tabBarIcon: () => <Image source={searchIconS} style={styles.icon} /> }}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                focused ?
+                  <Image source={searchIconS} style={styles.icon} />
+                  :
+                  <Image source={searchIcon} style={styles.icon} />
+              )
+            }}
           />
           <BottomTab.Screen name='Contact' component={Contact}
-            options={{ tabBarIcon: () => <Image source={contactIconS} style={styles.icon} /> }}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                focused ?
+                  <Image source={contactIconS} style={styles.icon} />
+                  :
+                  <Image source={contactIcon} style={styles.icon} />
+              )
+            }}
           />
         </BottomTab.Navigator>
       </View>
