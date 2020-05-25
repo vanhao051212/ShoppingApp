@@ -2,7 +2,7 @@ import { host as _host } from './ip';
 
 
 const getOrderHistory = (token) => (
-  fetch(`http://${_host}/app/order_history.php`, {
+  fetch(`http://${_host}:3000/api/get_order_history`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

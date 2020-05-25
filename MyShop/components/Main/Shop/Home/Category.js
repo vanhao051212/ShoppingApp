@@ -3,7 +3,7 @@ import Swiper from 'react-native-swiper';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ImageBackground, } from 'react-native';
 const host=require('../../../../api/ip');
 const { width } = Dimensions.get('window');
-const uri = `http://${host.host}/app/images/type/`;
+const uri = `http://${host.host}:3000/images/type/`;
 export default class Collection extends Component {
   constructor(props) {
     super(props);

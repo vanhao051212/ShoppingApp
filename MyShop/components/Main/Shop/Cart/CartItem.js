@@ -4,7 +4,7 @@ import {
   Dimensions, StyleSheet, Image
 } from 'react-native';
 const host =require('../../../../api/ip');
-const uri = `http://${host.host}/app/images/product/`;
+const uri = `http://${host.host}:3000/images/product/`;
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 }
@@ -39,10 +39,12 @@ class CartView extends Component {
       txtName, txtPrice, productImage, numberOfProduct,
       txtShowDetail, showDetailContainer } = styles;
     const { navigation, product, quantity } = this.props;
+
+    const img = product.images.split(',')
     return (
 
       <View style={productContainer}>
-        <Image source={{ uri: `${uri}${product.images[0]}` }} style={productImage} />
+        <Image source={{ uri: `${uri}${img[0]}` }} style={productImage} />
         <View style={[mainRight]}>
           <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
             <Text style={txtName}>{toTitleCase(`${product.name}`)}</Text>

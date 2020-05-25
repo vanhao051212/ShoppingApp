@@ -15,6 +15,7 @@ export default class SignIn extends Component {
     const { navigation } = this.props;
     signIn(email, password)
       .then(res => {
+        console.log(res.token)
         global.onSignIn(res.user);
         saveToken(res.token);
         this.setState({

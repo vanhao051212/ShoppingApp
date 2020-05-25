@@ -5,7 +5,7 @@ import getToken from './getToken';
 import removeToken from './removeToken';
 
 const getNewToken = (token) => (
-  fetch(`http://${host.host}/app/refresh_token.php`, {
+  fetch(`http://${host.host}:3000/auth/refresh_token`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -24,8 +24,11 @@ const refreshToken = async () => {
       console.log("chua co token");
     }
     // else console.log(token);
-    const newToken = await getNewToken(token);
-    await saveToken(newToken);
+    else {
+      const newToken = await getNewToken(token);
+      await saveToken(newToken);
+    }
+    
     // console.log(newToken);
   } catch (error) {
     console.log(error);

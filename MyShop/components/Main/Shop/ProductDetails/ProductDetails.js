@@ -9,7 +9,7 @@ const host = require('../../../../api/ip')
 const back = require('../../../../media/appIcon/back.png');
 const cart = require('../../../../media/appIcon/cartfull.png');
 
-const uri = `http://${host.host}/app/images/product/`;
+const uri = `http://${host.host}:3000/images/product/`;
 
 /****** bug: should be open component Cart to add new cart ******/
 
@@ -30,6 +30,8 @@ export default class ProductDetails extends Component {
     } = styles;
     const { navigation, route } = this.props;
     const { product } = route.params;
+
+    const img = product.images.split(',')
     // console.log(product);
     return (
       <View style={wrapper}>
@@ -50,8 +52,8 @@ export default class ProductDetails extends Component {
           </View>
           <View style={imageContainer}>
             <ScrollView style={{ flexDirection: 'row', padding: 10, height: swiperHeight }} horizontal >
-              <Image source={{ uri: `${uri}${product.images[0]}` }} style={productImageStyle} />
-              <Image source={{ uri: `${uri}${product.images[1]}` }} style={productImageStyle} />
+              <Image source={{ uri: `${uri}${img[0]}` }} style={productImageStyle} />
+              <Image source={{ uri: `${uri}${img[1]}` }} style={productImageStyle} />
             </ScrollView>
           </View>
           <View style={footer}>

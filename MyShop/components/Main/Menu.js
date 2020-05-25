@@ -23,6 +23,7 @@ export default class Menu extends Component {
     getToken()
       .then(res => {
         if (res) {
+          console.log('token log '+ res);
           this.setState({ token: res })
           checkLogin(res)
             .then(res => {
@@ -39,10 +40,10 @@ export default class Menu extends Component {
     // }, 60 * 1000)
   }
   onSignIn(user) {
-    this.setState({ user });
+    this.setState({ user: user });
   }
   changeInfo(user) {
-    this.setState({ user });
+    this.setState({ user: user });
   }
   handleSignOut = () => {
     const { navigation } = this.props;

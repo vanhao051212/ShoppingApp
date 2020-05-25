@@ -8,10 +8,10 @@ var bcrypt = require('bcryptjs');
 var db = require('../db/db');
 
 function verifyToken(req, res, next) {
-  let inputData = req.body;
+  const inputData = req.body;
   if (inputData.token == null) return res.sendStatus(401);
   jwt.verify(inputData.token, process.env.ACCESS_TOKEN_SECRET, (err, email) => {
-    if (err) return res.sendStatus(403);
+    if (err) return res.json({ result: "token khong hop le" });
     req.email = email;
     next()
   })
@@ -20,19 +20,19 @@ router.post('/change_info', verifyToken, async (req, res) => {
   // console.log(req.body);
   const inputData = req.body;
   async function HandleProcess() {
-    result = await db.updateUserInfo(inputData.name, inputData.phone, inputData.address, inputData.email); // Truy vấn giá trị trạng thái
+    result = await db.updateUserInfo(inputData.name, inputData.phone, inputData.address, req.email); // Truy vấn giá trị trạng thái
     if (result != "updateUserInfo-ERROR") {
-      result2 = await db.queryUser(inputData.email);
+      result2 = await db.queryUser(req.email);
       if (result2 != "queryUser-ERROR") {
-        const token = jwt.sign(inputData.email, process.env.ACCESS_TOKEN_SECRET); //24h
-        res.json({ token: token, user: result2 });
+
+        res.json({ user: result2 });
       }
       else {
-        res.send("KHONG_THANH_CONG")
+        res.json({ result: "KHONG_THANH_CONG" })
       }
     }
     else {
-      res.send("KHONG_THANH_CONG")
+      res.json({ result: "KHONG_THANH_CONG" })
     }
   }
   HandleProcess(); // Thực thi
@@ -64,29 +64,29 @@ router.post('/login', async (req, res) => {
         res.json({ token: token, user: result });
       }
       else {
-        res.send("KHONG_THANH_CONG")
+        res.json({ result: "KHONG_THANH_CONG" })
       }
     }
     else
-      res.send('KHONG_THANH_CONG');
+      res.json({ result: "KHONG_THANH_CONG" })
   }
   HandleProcess(); // Thực thi
 })
 router.post('/check_login', verifyToken, async (req, res) => {
   async function HandleProcess() {
     result = await db.queryUser(req.email);
-      if (result != "queryUser-ERROR") {
-        res.json({ user: result });
-      }
-      else {
-        res.send("KHONG_THANH_CONG")
-      }
+    if (result != "queryUser-ERROR") {
+      res.json({ user: result });
+    }
+    else {
+      res.json({ result: "KHONG_THANH_CONG" })
+    }
   }
   HandleProcess(); // Thực thi
 })
 router.post('/refresh_token', verifyToken, (req, res) => {
   const token = jwt.sign(req.email, process.env.ACCESS_TOKEN_SECRET); //24h
-  res.json({ token: token });
+  res.send(token);
 })
 
 

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import sp4 from '../../../../media/temp/sp4.jpeg';
-const host = require ('../../../../api/ip');
-const uri = `http://${host.host}/app/images/product/`;
+import { host as _host } from '../../../../api/ip';
+const uri = `http://${_host}:3000/images/product/`;
 export default class Product extends Component {
   state = {}
   static propTypes = {
@@ -12,11 +12,13 @@ export default class Product extends Component {
   render() {
     const { container, imageStyle, textContainer, textName, textPrice } = styles;
     const { navigation, product } = this.props;
+    const img = product.images.split(',')
+    
     return (
       <TouchableOpacity style={container}
         onPress={() => navigation.navigate('ProductDetails', { product: product })}
       >
-        <Image source={{ uri: `${uri}${product.images[1]}` }} style={imageStyle} />
+        <Image source={{ uri: `${uri}${img[1]}` }} style={imageStyle} />
         <View style={textContainer}>
           <Text style={textName}>{product.name.toUpperCase()}</Text>
           <Text style={textPrice}>{product.price}$</Text>

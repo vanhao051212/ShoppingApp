@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
 
 const host = require ('../../../../api/ip');
-const uri = `http://${host.host}/app/images/product/`;
+const uri = `http://${host.host}:3000/images/product/`;
 
 export default class ProductItem extends Component {
   state = {}
@@ -10,10 +10,12 @@ export default class ProductItem extends Component {
     const { navigation, product} = this.props;
     const { container, imageStyle, rightContainer, bottomRightContainer, textDetails, colorStyle,
       textName, textPrice, textColor, textMaterial } = styles;
+
+      const img = product.images.split(',')
     return (
 
       <View style={container}>
-        <Image source={{ uri: `${uri}${product.images[0]}` }} style={imageStyle} />
+        <Image source={{ uri: `${uri}${img[0]}` }} style={imageStyle} />
         <View style={rightContainer}>
           <Text style={textName}>{ product.name}</Text>
           <Text style={textPrice}>{product.price}$</Text>

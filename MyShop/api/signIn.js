@@ -1,6 +1,6 @@
-const host = require('./ip');
+import { host as _host } from './ip';
 const signIn = (email, password) => (
-  fetch(`http://${host.host}/app/login.php`, {
+  fetch(`http://${_host}:3000/auth/login`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -11,4 +11,4 @@ const signIn = (email, password) => (
     .then(res => res.json())
 )
 
-module.exports = signIn;
+export default signIn;

@@ -1,7 +1,7 @@
 const host = require('./ip');
 
 const changeInfo = (token, name, phone, address) => (
-  fetch(`http://${host.host}/app/change_info.php`, {
+  fetch(`http://${host.host}:3000/auth/change_info`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
