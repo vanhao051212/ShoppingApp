@@ -38,4 +38,13 @@ router.get('/product_by_type/:id_type/:page', (req, res) => {
   HandleProcess(); // Thực thi
 })
 
+router.post('/get_order_history',verifyToken, (req, res)=>{
+  async function HandleProcess() {
+    result = await db.queryOrderHistory(req.email); // Truy vấn giá trị trạng thái
+    if (result != "queryOrderHistory-ERROR") 
+      res.send(result);
+    else res.send("queryOrderHistory-ERROR");
+  }
+  HandleProcess(); // Thực thi
+})
 module.exports = router

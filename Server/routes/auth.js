@@ -7,7 +7,6 @@ var bcrypt = require('bcryptjs');
 
 var db = require('../db/db');
 
-
 function verifyToken(req, res, next) {
   let inputData = req.body;
   if (inputData.token == null) return res.sendStatus(401);
@@ -89,4 +88,6 @@ router.post('/refresh_token', verifyToken, (req, res) => {
   const token = jwt.sign(req.email, process.env.ACCESS_TOKEN_SECRET); //24h
   res.json({ token: token });
 })
+
+
 module.exports = router

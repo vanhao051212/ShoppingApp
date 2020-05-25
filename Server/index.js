@@ -12,6 +12,8 @@ app.set("views", "./views");
 app.use('/api', api)
 app.use('/auth', auth)
 
+// app.use(express.static(__dirname + '/data/img'));
+
 var server = require("http").Server(app);
 var io = require('socket.io')(server);
 server.listen(process.env.PORT || 4000, () => {

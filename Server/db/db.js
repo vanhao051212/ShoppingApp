@@ -52,6 +52,19 @@ exports.queryListProduct = function (id_type, page) {
 	});
 }
 
+exports.queryOrderHistory = (email)=>{
+	let sql = `SELECT b.id, b.date_order, b.status, b.total FROM bill b INNER JOIN users u \
+	ON u.id=b.id_customer where u.email ='${email}'`;
+	return new Promise(function (resolve, reject) {
+		pool.query(sql, function (err, rows, fields) { // Truy vấn
+			if (err) reject(err);
+			if (rows.length >= 0) {
+				resolve(rows);
+			}
+			else resolve("queryOrderHistory-ERROR");
+		});
+	});
+}
 
 // for auth
 exports.usersRegister = (email, password, name) => {
