@@ -1,19 +1,21 @@
 const express = require("express");
 var app = express();
-
+const api = require('./routes/api')
+const auth = require('./routes/auth')
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(bodyParser.json({ type: 'application/json' }));
 
-
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
+app.use('/api', api)
+app.use('/auth', auth)
 
 var server = require("http").Server(app);
 var io = require('socket.io')(server);
-server.listen(process.env.PORT || 3000, () => {
-   console.log('listening on *:3000');
+server.listen(process.env.PORT || 4000, () => {
+   console.log('listening on *:4000');
 });
 
 var dt = [{
